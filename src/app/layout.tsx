@@ -1,8 +1,18 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Fraunces } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+    subsets: ["latin"],
+    display: "swap",
+    variable: "--font-inter",
+});
+
+const fraunces = Fraunces({
+    subsets: ["latin"],
+    display: "swap",
+    variable: "--font-fraunces",
+});
 
 export const metadata: Metadata = {
     title: "A Polling App",
@@ -19,7 +29,20 @@ export default function RootLayout({
             <head>
                 <link rel="icon" href="icon.png" />
             </head>
-            <body className={inter.className}>{children}</body>
+            <body
+                className={[
+                    inter.variable,
+                    fraunces.variable,
+                    "w-full",
+                    "min-h-screen",
+                    "flex",
+                    "justify-center",
+                    "items-center",
+                    "select-none",
+                ].join(" ")}
+            >
+                {children}
+            </body>
         </html>
     );
 }

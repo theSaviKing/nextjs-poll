@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 module.exports = {
     content: [
         "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -7,12 +10,17 @@ module.exports = {
     ],
     theme: {
         extend: {
-            backgroundImage: {
-                "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-                "gradient-conic":
-                    "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+            fontFamily: {
+                sans: ["var(--font-inter)", ...defaultTheme.fontFamily.sans],
+                serif: [
+                    "var(--font-fraunces)",
+                    ...defaultTheme.fontFamily.serif,
+                ],
             },
         },
     },
-    plugins: [],
+    plugins: [require("daisyui")],
+    daisyui: {
+        themes: ["luxury"],
+    },
 };
