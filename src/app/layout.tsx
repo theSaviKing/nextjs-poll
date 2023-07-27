@@ -1,6 +1,6 @@
-import "./globals.css";
 import type { Metadata } from "next";
 import { Inter, Fraunces } from "next/font/google";
+import "./globals.css";
 
 const inter = Inter({
     subsets: ["latin"],
@@ -30,17 +30,9 @@ export default function RootLayout({
                 <link rel="icon" href="icon.png" />
             </head>
             <body
-                className={[
-                    inter.variable,
-                    fraunces.variable,
-                    "w-full",
-                    "min-h-screen",
-                    "flex",
-                    "justify-center",
-                    "items-center",
-                    "select-none",
-                ].join(" ")}
+                className={`${inter.variable} ${fraunces.variable} w-full min-h-screen flex justify-center items-center select-none font-sans`}
             >
+                <div className="fixed [--grad-width:50vh] -top-[calc(var(--grad-width)/2)] -left-[calc(var(--grad-width)/2)] w-[--grad-width] h-[--grad-width] bg-gradient-radial from-neutral"></div>
                 {children}
             </body>
         </html>

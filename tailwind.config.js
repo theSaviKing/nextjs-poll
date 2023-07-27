@@ -11,16 +11,22 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ["var(--font-inter)", ...defaultTheme.fontFamily.sans],
+                sans: ["var(--font-inter)"], // ...defaultTheme.fontFamily.sans],
                 serif: [
                     "var(--font-fraunces)",
                     ...defaultTheme.fontFamily.serif,
                 ],
             },
+            backgroundImage: {
+                "gradient-radial":
+                    "radial-gradient(closest-side, var(--tw-gradient-stops))",
+                "gradient-conic":
+                    "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+            },
         },
     },
     plugins: [require("daisyui")],
     daisyui: {
-        themes: ["luxury"],
+        themes: ["night"],
     },
 };
