@@ -9,3 +9,10 @@ h1 {
 header, main {
     @apply flex flex-col justify-center items-center;
 }
+
+label:has(+ input[required]) {
+    @apply relative;
+    ::after {
+        
+    }
+}
