@@ -14,14 +14,24 @@ async function getAllPolls() {
     return data;
 }
 
-async function getPollByID(id: number) {
-    let data = await prisma.poll.findUnique({
+async function getPollByID(pollId: number) {
+    console.log("pollId =", pollId, typeof pollId);
+    let data = await prisma.poll.findUniqueOrThrow({
         where: {
-            id: id
-        }
-    })
+            id: pollId,
+        },
+        include: {
+            votes: {
+                include: {
+                    user: true,
+                },
+            },
+        },
+    });
     disconnectPrisma();
     return data;
 }
 
-export { getAllPolls, getPollByID };
+async function vote(email: string, vote: string, name?: string) {}
+
+export { getAllPolls, getPollByID, vote };

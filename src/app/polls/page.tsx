@@ -1,5 +1,5 @@
+import { Metadata } from "next";
 import { getAllPolls } from "./dbClient";
-import Poll from "./poll";
 
 export default async function Polls() {
     let pollData = await getAllPolls();
