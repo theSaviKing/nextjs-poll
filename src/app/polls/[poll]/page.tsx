@@ -13,8 +13,6 @@ export async function generateMetadata({
     };
 }
 
-// trying to get Vercel to deploy...
-
 export default async function Poll({ params }: { params: { poll: string } }) {
     const pollId = Number(params.poll);
     // console.log("pollId = ", pollId, typeof pollId);
