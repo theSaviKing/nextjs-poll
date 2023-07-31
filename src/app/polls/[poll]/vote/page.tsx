@@ -1,5 +1,5 @@
-import { Metadata } from "next";
 import { getPollByID } from "../../dbClient";
+import { PrismaClient } from "@prisma/client";
 
 export async function generateMetadata({
     params,
@@ -26,32 +26,47 @@ export default async function Vote({ params }: { params: { poll: string } }) {
             </header>
             <form
                 method="post"
-                className="rounded-lg p-8 border-accent bg-base-200 form-control"
+                action="./cast"
+                className="rounded-lg p-8 border-accent bg-base-200 form-control space-y-4"
             >
                 <label htmlFor="vote" className="label">
-                    Your answer
+                    <span>Your answer</span>
                 </label>
                 <input
                     type="text"
                     id="vote"
                     name="vote"
-                    className="input"
+                    className="input input-primary"
                     required
                 />
-                <div className="grid grid-cols-2 gap-4 mt-4">
+                <div className="grid grid-cols-2 gap-4">
                     <div>
                         <label htmlFor="email" className="label">
-                            Email
+                            <span>Email</span>
                         </label>
-                        <input type="text" className="input" />
+                        <input
+                            type="text"
+                            className="input"
+                            placeholder="john.smith@gmail.com"
+                            required
+                            id="email"
+                            name="email"
+                        />
                     </div>
                     <div>
                         <label htmlFor="name" className="label">
-                            Name
+                            <span>Name</span>
                         </label>
-                        <input type="text" className="input" />
+                        <input
+                            type="text"
+                            className="input"
+                            placeholder="John Smith"
+                        />
                     </div>
                 </div>
+                <button type="submit" className="btn btn-primary">
+                    Cast my vote
+                </button>
             </form>
             <a href="." className="btn w-96 btn-outline">
                 back to poll

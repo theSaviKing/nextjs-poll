@@ -6,32 +6,41 @@ generator client {
 }
 
 datasource db {
-  // provider = "postgresql"
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
-  // directUrl = env("DIRECT_URL")
+  provider  = "postgresql"
+  // provider = "sqlite"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  votes Vote[]
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  votes     Vote[]
+  createdAt DateTime @default(now())
 }
 
 model Poll {
-  id       Int     @id @default(autoincrement())
-  question String
-  type     String // "short_text", "yes_no", or "multiple_choice"
-  choices  String? // Comma-separated list of choices for "multiple_choice" polls
-  votes    Vote[]
+  id        Int      @id @default(autoincrement())
+  question  String
+  type      PollType // "short_text", "yes_no", or "multiple_choice"
+  choices   String[] @default([]) // Comma-separated list of choices for "multiple_choice" polls
+  votes     Vote[]
+  createdAt DateTime @default(now())
+}
+
+enum PollType {
+  SHORT_TEXT
+  BOOLEAN
+  CHOICES
 }
 
 model Vote {
-  id     Int    @id @default(autoincrement())
-  poll   Poll   @relation(fields: [pollId], references: [id])
-  pollId Int
-  user   User   @relation(fields: [userId], references: [id])
-  userId Int
-  vote   String
+  id        Int      @id @default(autoincrement())
+  poll      Poll     @relation(fields: [pollId], references: [id])
+  pollId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  vote      String
+  createdAt DateTime @default(now())
 }

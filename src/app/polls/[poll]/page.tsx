@@ -19,7 +19,7 @@ export default async function Poll({ params }: { params: { poll: string } }) {
     return (
         <main className="flex flex-col gap-12">
             <p className="text-4xl text-secondary">{poll.question}</p>
-            <div className="flex gap-2">
+            <div className="flex gap-4">
                 {poll.votes.map((vote) => (
                     <div className="p-2 bg-base-200 border border-accent/50 rounded">
                         <p className="font-medium">{vote.vote}</p>

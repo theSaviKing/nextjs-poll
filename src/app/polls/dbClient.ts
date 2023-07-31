@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -32,6 +32,32 @@ async function getPollByID(pollId: number) {
     return data;
 }
 
-async function vote(email: string, vote: string, name?: string) {}
+async function submitVote(pollId: number, vote: string, email: string, name?: string, include = {}) {
+    let newVote: Prisma.VoteCreateInput = {
+        vote: vote,
+        pollId: pollId,
+    }
+    const userIfExists = await prisma.user.findUnique({
+        where: {
+            email: email
+        }
+    })
+    let user, userId;
+    if (userIfExists == null) {
+        user = {create: {
+            email: email
+        }}
+        if (name != null) {
+            user.create.name = name
+        }
+    } else {
+        userId = userIfExists.id
+    }
+    userId == null ? newVote.user = user : newVote.userId = userId
+    return await prisma.vote.create({
+            data: newVote,
+            include: include
+        });
+}
 
-export { getAllPolls, getPollByID, vote };
+export { getAllPolls, getPollByID, submitVote };

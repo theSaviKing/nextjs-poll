@@ -6,13 +6,12 @@ h1 {
     @apply font-black uppercase text-6xl font-serif;
 }
 
-header, main {
+header,
+main {
     @apply flex flex-col justify-center items-center;
 }
 
-label:has(+ input[required]) {
-    @apply relative;
-    ::after {
-        
-    }
+label:has(+ input[required]) span::after {
+    content: "*";
+    @apply ml-1 text-error;
 }
