@@ -32,32 +32,42 @@ async function getPollByID(pollId: number) {
     return data;
 }
 
-async function submitVote(pollId: number, vote: string, email: string, name?: string, include = {}) {
+async function submitVote(
+    pollId: number,
+    vote: string,
+    email: string,
+    name?: string,
+    include = {}
+) {
     let newVote: Prisma.VoteCreateInput = {
         vote: vote,
         pollId: pollId,
-    }
+    };
     const userIfExists = await prisma.user.findUnique({
         where: {
-            email: email
-        }
-    })
+            email: email,
+        },
+    });
     let user, userId;
     if (userIfExists == null) {
-        user = {create: {
-            email: email
-        }}
+        user = {
+            create: {
+                email: email,
+            },
+        };
         if (name != null) {
-            user.create.name = name
+            user.create.name = name;
         }
     } else {
-        userId = userIfExists.id
+        userId = userIfExists.id;
     }
-    userId == null ? newVote.user = user : newVote.userId = userId
-    return await prisma.vote.create({
-            data: newVote,
-            include: include
-        });
+    userId == null ? (newVote.user = user) : (newVote.userId = userId);
+    let data = await prisma.vote.create({
+        data: newVote,
+        include: include,
+    });
+    disconnectPrisma();
+    return data;
 }
 
 export { getAllPolls, getPollByID, submitVote };
