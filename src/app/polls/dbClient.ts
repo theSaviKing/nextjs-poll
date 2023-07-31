@@ -39,34 +39,55 @@ async function submitVote(
     name?: string,
     include = {}
 ) {
-    let newVote: Prisma.VoteCreateInput = {
+    // let user: { create: { email: string; name?: string } }, userId;
+    let newVote = {
         vote: vote,
         pollId: pollId,
+        user: {
+            connectOrCreate: {},
+        },
     };
-    const userIfExists = await prisma.user.findUnique({
-        where: {
-            email: email,
+    // const userIfExists = await prisma.user.findUnique({
+    //     where: {
+    //         email: email,
+    //     },
+    // });
+    // if (userIfExists == null) {
+    //     user = {
+    //         create: {
+    //             email: email,
+    //         },
+    //     };
+    //     if (name != null) {
+    //         user.create.name = name;
+    //     }
+    // } else {
+    //     userId = userIfExists.id;
+    // }
+    // userId == null ? (newVote.user = user) : (newVote.userId = userId);
+    let data = await prisma.vote.create({
+        data: {
+            vote: vote,
+            poll: {
+                connect: {
+                    id: pollId,
+                },
+            },
+            user: {
+                connectOrCreate: {
+                    where: {
+                        email: email,
+                    },
+                    create: {
+                        email: email,
+                        name: name,
+                    },
+                },
+            },
         },
     });
-    let user, userId;
-    if (userIfExists == null) {
-        user = {
-            create: {
-                email: email,
-            },
-        };
-        if (name != null) {
-            user.create.name = name;
-        }
-    } else {
-        userId = userIfExists.id;
-    }
-    userId == null ? (newVote.user = user) : (newVote.userId = userId);
-    let data = await prisma.vote.create({
-        data: newVote,
-        include: include,
-    });
     disconnectPrisma();
+    console.log("Vote submitted:", data);
     return data;
 }
 
