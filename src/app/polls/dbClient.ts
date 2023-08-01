@@ -1,6 +1,6 @@
 "use server";
 
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient, PollType } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -38,36 +38,9 @@ async function submitVote(
     pollId: number,
     vote: string,
     email: string,
-    name?: string,
-    include = {}
+    name?: string
 ) {
-    // let user: { create: { email: string; name?: string } }, userId;
-    let newVote = {
-        vote: vote,
-        pollId: pollId,
-        user: {
-            connectOrCreate: {},
-        },
-    };
-    // const userIfExists = await prisma.user.findUnique({
-    //     where: {
-    //         email: email,
-    //     },
-    // });
-    // if (userIfExists == null) {
-    //     user = {
-    //         create: {
-    //             email: email,
-    //         },
-    //     };
-    //     if (name != null) {
-    //         user.create.name = name;
-    //     }
-    // } else {
-    //     userId = userIfExists.id;
-    // }
-    // userId == null ? (newVote.user = user) : (newVote.userId = userId);
-    let data = await prisma.vote.create({
+    let newVote = await prisma.vote.create({
         data: {
             vote: vote,
             poll: {
@@ -89,8 +62,23 @@ async function submitVote(
         },
     });
     disconnectPrisma();
-    console.log("Vote submitted:", data);
-    return data;
+    return newVote;
 }
 
-export { getAllPolls, getPollByID, submitVote };
+async function createPoll(
+    question: string,
+    pollType: PollType,
+    choices?: string[]
+) {
+    let newPoll = await prisma.poll.create({
+        data: {
+            question: question,
+            type: pollType,
+            choices: choices,
+        },
+    });
+    disconnectPrisma();
+    return newPoll;
+}
+
+export { getAllPolls, getPollByID, submitVote, createPoll };

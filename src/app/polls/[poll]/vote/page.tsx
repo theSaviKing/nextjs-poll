@@ -1,5 +1,4 @@
 import { getPollByID } from "../../dbClient";
-import { PrismaClient } from "@prisma/client";
 
 export async function generateMetadata({
     params,
@@ -27,7 +26,7 @@ export default async function Vote({ params }: { params: { poll: string } }) {
             <form
                 method="post"
                 action="./cast"
-                className="rounded-lg p-8 border-accent bg-base-200 form-control space-y-4"
+                className="rounded-lg p-8 bg-base-200 form-control space-y-4"
             >
                 <label htmlFor="vote" className="label">
                     <span>Your answer</span>

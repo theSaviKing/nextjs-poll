@@ -1,6 +1,5 @@
 import { submitVote } from "@/app/polls/dbClient";
 import { redirect } from "next/navigation";
-import { NextRequest } from "next/server";
 
 export async function POST(request, { params }) {
     const pollId = Number(params.poll);
@@ -12,7 +11,15 @@ export async function POST(request, { params }) {
     ];
     const submittedVote = await submitVote(pollId, vote, email, name);
     console.log("Vote successfully submitted:", submittedVote);
-    const redirLoc = `/polls/${pollId}`;
+    let redirLoc = `/polls/${pollId}`;
+    redirLoc = "/polls";
+    console.log("Redirecting to", redirLoc);
+    redirect(redirLoc, "replace");
+}
+
+export async function GET(request, { params }) {
+    let redirLoc = `/polls/${pollId}`;
+    redirLoc = "/polls";
     console.log("Redirecting to", redirLoc);
     redirect(redirLoc);
 }
