@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { getPollByID } from "../dbClient";
+import Link from "next/link";
 
 export async function generateMetadata({
     params,
@@ -36,9 +37,9 @@ export default async function Poll({ params }: { params: { poll: string } }) {
                     </div>
                 ))}
             </div>
-            <a href={`${pollId}/vote`} className="btn btn-secondary btn-wide">
+            <Link href={`${pollId}/vote`} className="btn btn-secondary btn-wide">
                 vote
-            </a>
+            </Link>
         </main>
     );
 }

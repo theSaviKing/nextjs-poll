@@ -11,7 +11,7 @@ main {
     @apply flex flex-col justify-center items-center;
 }
 
-label:has(+ input[required]) span::after {
+label:has(+ [required]) span::after {
     content: "*";
     @apply ml-1 text-error;
 }

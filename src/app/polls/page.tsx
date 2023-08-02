@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { getAllPolls } from "./dbClient";
+import Link from "next/link";
 
 export const metadata: Metadata = {
     title: {
@@ -15,7 +16,7 @@ export default async function Polls() {
     return (
         <main className="grid grid-cols-3 w-4/5 gap-4 mx-auto">
             {pollData.map((poll) => (
-                <a
+                <Link
                     href={`polls/${poll.id}`}
                     className="p-4 border border-primary/50 rounded bg-base-200 grid gap-2"
                 >
@@ -24,8 +25,18 @@ export default async function Polls() {
                         {poll.votes.length} vote
                         {poll.votes.length == 1 ? "" : "s"}
                     </p>
-                </a>
+                </Link>
             ))}
+            {pollData.length == 0 ? (
+                <div className="text-center col-span-full space-y-4">
+                    <h2 className="text-4xl font-light">No polls yet...</h2>
+                    <p className="uppercase text-secondary text-lg font-bold">
+                        Maybe you should make one!
+                    </p>
+                </div>
+            ) : (
+                <></>
+            )}
         </main>
     );
 }

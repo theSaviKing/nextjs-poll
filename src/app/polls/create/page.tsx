@@ -1,6 +1,6 @@
 import { getPollByID } from "../dbClient";
 import { PrismaClient } from "@prisma/client";
-import CreatePoll from "./PollChoices";
+import CreatePoll from "./createPoll";
 
 export async function generateMetadata() {
     return {

@@ -1,4 +1,5 @@
 import { getPollByID } from "../../dbClient";
+import Link from "next/link";
 
 export async function generateMetadata({
     params,
@@ -67,9 +68,9 @@ export default async function Vote({ params }: { params: { poll: string } }) {
                     Cast my vote
                 </button>
             </form>
-            <a href="." className="btn w-96 btn-outline">
+            <Link href="." className="btn w-96 btn-outline">
                 back to poll
-            </a>
+            </Link>
         </>
     );
 }

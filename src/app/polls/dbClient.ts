@@ -1,6 +1,6 @@
 "use server";
 
-import { Prisma, PrismaClient, PollType } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -40,6 +40,7 @@ async function submitVote(
     email: string,
     name?: string
 ) {
+    let data: Prisma.VoteCreateInput;
     let newVote = await prisma.vote.create({
         data: {
             vote: vote,
@@ -67,8 +68,8 @@ async function submitVote(
 
 async function createPoll(
     question: string,
-    pollType: PollType,
-    choices?: string[]
+    pollType: string,
+    choices?: string
 ) {
     let newPoll = await prisma.poll.create({
         data: {
